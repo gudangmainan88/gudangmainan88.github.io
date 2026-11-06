@@ -110,8 +110,8 @@ async function uploadProductImage(file,productName,id){
  const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",.84));if(!blob)throw new Error("Gagal mengompres foto.");
  const slug=String(productName||"produk").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,55)||"produk";
  const filePath=`${slug}-${id}-${Date.now()}.webp`;
- const response=await fetch(`${supabaseUrl}/storage/v1/object/produk/${encodeURIComponent(filePath)}`,{method:"POST",headers:{"apikey":supabaseAnonKey,"Authorization":`Bearer ${accessToken}`,"Content-Type":"image/webp","x-upsert":"true"},body:blob});
- const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.message||result.error||`Upload foto gagal (${response.status}).`);
+ const response=await fetch(`${supabaseUrl}/storage/v1/object/produk/${encodeURIComponent(filePath)}`,{method:"POST",headers:{"apikey":supabaseAnonKey,"Authorization":`Bearer ${supabaseAnonKey}`,"Content-Type":"image/webp","cache-control":"3600"},body:blob});
+ const rawResult=await response.text();let result={};try{result=rawResult?JSON.parse(rawResult):{}}catch{result={message:rawResult}}if(!response.ok){const detail=[result.message,result.error,result.statusCode,result.code].filter(Boolean).join(" | ");throw new Error(`Upload foto ditolak oleh Supabase Storage (HTTP ${response.status})${detail?": "+detail:""}. Periksa policy INSERT bucket produk untuk role anon.`);}
  return `${supabaseUrl}/storage/v1/object/public/produk/${encodeURIComponent(filePath)}`;
 }
 async function saveProductToSupabase(product){await sbFetch("/rest/v1/products?on_conflict=id",{method:"POST",headers:{"Prefer":"resolution=merge-duplicates,return=representation"},body:JSON.stringify(product)});}
