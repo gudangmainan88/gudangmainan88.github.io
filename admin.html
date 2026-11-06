@@ -11,28 +11,28 @@
 </head>
 <body>
 <div class="shell">
-<aside class="side"><div class="brand"><span class="brand-mark">🧸</span><span>GUDANG MAINAN 88<small>SUPERADMIN PANEL</small></span></div><div class="nav-label">Menu utama</div><button class="nav-item active" type="button">▦ &nbsp; Dashboard katalog</button><button class="nav-item" type="button" onclick="document.getElementById('editorPanel').scrollIntoView({behavior:'smooth'})">＋ &nbsp; Upload produk</button><button class="nav-item" type="button" onclick="downloadBackup()">⇩ &nbsp; Backup katalog</button><div class="side-note">Panel ini menerbitkan katalog ke repository GitHub toko. Perubahan akan dibaca oleh halaman Frontand melalui <b>catalog.json</b>.</div></aside>
+<aside class="side"><div class="brand"><span class="brand-mark">🧸</span><span>GUDANG MAINAN 88<small>SUPERADMIN PANEL</small></span></div><div class="nav-label">Menu utama</div><button class="nav-item active" type="button">▦ &nbsp; Dashboard katalog</button><button class="nav-item" type="button" onclick="document.getElementById('editorPanel').scrollIntoView({behavior:'smooth'})">＋ &nbsp; Upload produk</button><button class="nav-item" type="button" onclick="downloadBackup()">⇩ &nbsp; Backup katalog</button><div class="side-note">Panel ini menyimpan data produk ke Supabase Database dan foto ke Supabase Storage.</div></aside>
 <main class="main">
 <header class="topbar"><div><h1>Dashboard Superadmin</h1><p>Kelola produk dan katalog Gudang Mainan 88</p></div><div class="admin-pill"><span class="dot" id="connectionDot"></span><span id="connectionText">Belum terhubung</span></div></header>
 <div class="content">
 <section class="connect">
- <div class="panel"><h2>Hubungkan ke katalog Frontend</h2><div class="muted">Dashboard akan membaca dan menerbitkan file catalog.json di GitHub Pages.</div>
-  <div class="connect-grid">
-   <div class="field"><label>GitHub owner</label><input id="repoOwner" value="gudangmainan88" autocomplete="off"></div>
-   <div class="field"><label>Repository</label><input id="repoName" value="gudangmainan88.github.io" autocomplete="off"></div>
-   <div class="field"><label>Branch</label><input id="repoBranch" value="main" autocomplete="off"></div>
-   <div class="field"><label>File katalog</label><input value="catalog.json" disabled></div>
-   <div class="field full"><label>Fine-grained Personal Access Token (GitHub)</label><input id="githubToken" type="password" placeholder="github_pat_..." autocomplete="off" spellcheck="false"></div>
+ <div class="panel"><h2>Hubungkan ke Supabase</h2><div class="muted">Database produk dan foto produk disimpan langsung di project Supabase.</div>
+   <div class="connect-grid">
+    <div class="field full"><label>Supabase Project URL</label><input id="supabaseUrl" placeholder="https://xxxxxxxx.supabase.co" autocomplete="url"></div>
+    <div class="field full"><label>Supabase anon / publishable key</label><input id="supabaseAnonKey" type="password" placeholder="sb_publishable_... atau anon key" autocomplete="off" spellcheck="false"></div>
+    <div class="field"><label>Email akun admin Supabase Auth</label><input id="adminEmail" type="email" placeholder="admin@email.com" autocomplete="username"></div>
+    <div class="field"><label>Password akun admin</label><input id="adminPassword" type="password" placeholder="Password Supabase Auth" autocomplete="current-password"></div>
+   </div>
+   <div class="connect-actions"><button class="btn yellow" id="connectBtn" type="button">🔗 Masuk &amp; muat produk</button><button class="btn" id="publishBtn" type="button" disabled>⬆ Sinkronkan produk</button><button class="btn light" type="button" id="disconnectBtn">Keluar</button></div>
+   <div class="notice" id="connectNotice"></div>
   </div>
-  <div class="connect-actions"><button class="btn yellow" id="connectBtn" type="button">🔗 Hubungkan &amp; muat katalog</button><button class="btn" id="publishBtn" type="button" disabled>⬆ Terbitkan katalog</button><button class="btn light" type="button" id="disconnectBtn">Putuskan</button></div>
-  <div class="notice" id="connectNotice"></div>
- </div>
- <div class="panel"><h2>Pengaturan akses GitHub</h2><p class="muted">Buat token khusus untuk repository toko. Jangan kirim token kepada siapa pun.</p>
-  <div class="permission"><b>Permission wajib:</b> Fine-grained token → Resource owner <b>gudangmainan88</b> → Only select repositories → <b>gudangmainan88.github.io</b> → Repository permissions → <b>Contents: Read and write</b>.<br><br><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Buka halaman pembuatan token GitHub ↗</a><br><br>Token hanya disimpan sementara di memori halaman ini. Token tidak ditulis ke catalog.json, tidak ditanam ke file, dan hilang ketika halaman ditutup atau dimuat ulang.</div>
+  <div class="panel"><h2>Pengaturan Supabase</h2><p class="muted">Buat satu project Supabase untuk Gudang Mainan 88.</p>
+   <div class="permission"><b>Yang perlu dibuat di Supabase:</b><br>1. Tabel <b>public.products</b> untuk data produk.<br>2. Storage bucket publik bernama <b>produk</b> untuk foto produk.<br>3. Buat akun admin di Supabase Authentication → Users.<br>4. Jalankan SQL setup yang disediakan bersama file perbaikan untuk membuat tabel serta kebijakan akses.<br><br><a href="https://supabase.com/dashboard" target="_blank" rel="noopener">Buka Supabase Dashboard ↗</a><br><br><b>Keamanan:</b> frontend hanya memakai anon/publishable key. Perubahan data dan upload foto memerlukan sesi login admin.</div>
+  </div>
  </div>
 </section>
 <section class="stats"><div class="stat"><div class="stat-label">TOTAL PRODUK</div><div class="stat-value" id="statProducts">12</div><div class="stat-sub">Produk dalam katalog</div></div><div class="stat"><div class="stat-label">KATEGORI</div><div class="stat-value" id="statCategories">6</div><div class="stat-sub">Kategori digunakan</div></div><div class="stat"><div class="stat-label">PRODUK PROMO</div><div class="stat-value" id="statPromos">7</div><div class="stat-sub">Memiliki harga lama</div></div><div class="stat"><div class="stat-label">STATUS PUBLIKASI</div><div class="stat-value" id="statStatus" style="font-size:16px">Draft</div><div class="stat-sub" id="statUpdated">Belum disinkronkan</div></div></section>
-<section class="panel"><div class="catalog-head"><div><h2>Katalog produk</h2><div class="muted">Tambah, edit, hapus, dan terbitkan produk ke frontend.</div></div><div class="catalog-tools"><input id="productSearch" type="search" placeholder="Cari nama atau kategori..."><button class="btn light" type="button" id="importJsonBtn">Impor JSON</button><input id="importJsonInput" type="file" accept="application/json,.json" hidden><button class="btn light" type="button" onclick="downloadBackup()">Backup JSON</button></div></div>
+<section class="panel"><div class="catalog-head"><div><h2>Katalog produk</h2><div class="muted">Tambah, edit, dan hapus produk langsung di Supabase.</div></div><div class="catalog-tools"><input id="productSearch" type="search" placeholder="Cari nama atau kategori..."><button class="btn light" type="button" id="importJsonBtn">Impor JSON</button><input id="importJsonInput" type="file" accept="application/json,.json" hidden><button class="btn light" type="button" onclick="downloadBackup()">Backup JSON</button></div></div>
  <div class="layout"><div class="product-list" id="productList"></div>
  <aside class="panel editor" id="editorPanel"><div class="editor-head"><h2 id="formTitle">＋ Tambah produk</h2><span class="muted" id="editMode">Produk baru</span></div>
  <form id="productForm">
@@ -53,7 +53,7 @@
   <div class="notice" id="formNotice"></div>
  </form>
  </aside></div>
- <div class="footer-note">Catatan: tombol Simpan menerbitkan katalog ke GitHub. GitHub Pages akan mengambil versi catalog.json terbaru setelah proses deploy selesai. File gambar diunggah ke folder <b>src/katalog/</b>. Menghapus produk dari katalog tidak otomatis menghapus berkas foto lama.</div>
+ <div class="footer-note">Catatan: data produk disimpan di Supabase Database dan foto di bucket Storage bernama <b>produk</b>. Frontend membaca produk langsung dari Supabase.</div>
 </section>
 </div></main></div>
 <script>
@@ -72,109 +72,111 @@ const DEFAULT_PRODUCTS = [
  {id:12,name:"Kit Kreasi Gelang Warna",brand:"COLOR POP",cat:"Kreatif",price:79000,old:95000,emoji:"🌈",tag:"-17%",rating:"4.6",reviews:31,image:""}
 ];
 let products=DEFAULT_PRODUCTS.map(p=>({...p}));
-let githubToken="", catalogSha=null, editingId=null, currentImage="", isConnected=false, busy=false;
+let supabaseUrl="",supabaseAnonKey="",accessToken="",editingId=null,currentImage="",isConnected=false,busy=false;
 const $=id=>document.getElementById(id);
 const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0);
 function notice(id,message,type="info"){const el=$(id);el.textContent=message;el.className=`notice show ${type}`;}
 function hideNotice(id){$(id).className="notice";}
-function setBusy(value){busy=value;["connectBtn","saveProductBtn"].forEach(id=>$(id).disabled=value);if($("publishBtn"))$("publishBtn").disabled=value||!isConnected;$("connectBtn").textContent=value?"Memproses…":"🔗 Hubungkan & muat katalog";$("saveProductBtn").textContent=value?"Menerbitkan…":(editingId===null?"Simpan produk":"Simpan perubahan");}
-function setConnection(on,label){isConnected=on;$("connectionDot").classList.toggle("on",on);$("connectionText").textContent=label|| (on?"Terhubung ke GitHub":"Belum terhubung");$("statStatus").textContent=on?"Terhubung":"Draft";if($("publishBtn"))$("publishBtn").disabled=!on||busy;}
-function updateStats(){ $("statProducts").textContent=products.length;$("statCategories").textContent=new Set(products.map(p=>p.cat).filter(Boolean)).size;$("statPromos").textContent=products.filter(p=>Number(p.old)>Number(p.price)).length; }
+function setBusy(value){busy=value;["connectBtn","saveProductBtn"].forEach(id=>$(id).disabled=value);$("publishBtn").disabled=value||!isConnected;$("connectBtn").textContent=value?"Memproses…":"🔗 Masuk & muat produk";$("saveProductBtn").textContent=value?"Menyimpan…":(editingId===null?"Simpan produk":"Simpan perubahan");}
+function setConnection(on,label){isConnected=on;$("connectionDot").classList.toggle("on",on);$("connectionText").textContent=label||(on?"Terhubung ke Supabase":"Belum terhubung");$("statStatus").textContent=on?"Terhubung":"Draft";$("publishBtn").disabled=!on||busy;}
+function updateStats(){$("statProducts").textContent=products.length;$("statCategories").textContent=new Set(products.map(p=>p.cat).filter(Boolean)).size;$("statPromos").textContent=products.filter(p=>Number(p.old)>Number(p.price)).length;}
 function renderProducts(){
- const q=$("productSearch").value.trim().toLowerCase();
- const list=products.filter(p=>(p.name+" "+p.brand+" "+p.cat).toLowerCase().includes(q));
+ const q=$("productSearch").value.trim().toLowerCase(),list=products.filter(p=>(p.name+" "+p.brand+" "+p.cat).toLowerCase().includes(q));
  $("productList").innerHTML=list.length?list.map(p=>`<article class="product-card"><div class="thumb">${p.image?`<img src="${escapeHTML(p.image)}" alt="">`:escapeHTML(p.emoji||"🧸")}</div><div class="product-card-main"><strong>${escapeHTML(p.name)}</strong><small>${escapeHTML(p.brand||"Tanpa brand")} · ${escapeHTML(p.cat)}</small><div class="price">${rupiah(p.price)}</div><div class="card-actions"><button class="btn light" type="button" data-edit="${Number(p.id)}">✎ Edit</button><button class="btn danger" type="button" data-delete="${Number(p.id)}">Hapus</button></div></div></article>`).join(""):`<div class="empty">Tidak ada produk yang cocok.</div>`;
  updateStats();
 }
-function pathEncode(path){return path.split("/").map(encodeURIComponent).join("/");}
-function apiHeaders(){return {"Accept":"application/vnd.github+json","Authorization":`Bearer ${githubToken}`,"X-GitHub-Api-Version":"2026-03-10","Content-Type":"application/json"};}
-async function githubFetch(path,options={}){
- const url=`https://api.github.com/repos/${encodeURIComponent($("repoOwner").value.trim())}/${encodeURIComponent($("repoName").value.trim())}/${path}`;
- const response=await fetch(url,{...options,headers:{...apiHeaders(),...(options.headers||{})}});
- let data={};try{data=await response.json()}catch{}
- if(!response.ok){const message=data.message||`GitHub API error ${response.status}`;throw new Error(message);}
+function apiHeaders(){return {"apikey":supabaseAnonKey,"Authorization":`Bearer ${accessToken||supabaseAnonKey}`,"Content-Type":"application/json"};}
+async function sbFetch(path,options={}){
+ const response=await fetch(`${supabaseUrl}${path}`,{...options,headers:{...apiHeaders(),...(options.headers||{})}});
+ const raw=await response.text();let data=null;try{data=raw?JSON.parse(raw):null}catch{data=raw}
+ if(!response.ok)throw new Error(data?.message||data?.msg||data?.error_description||`Supabase error ${response.status}: ${String(raw).slice(0,180)}`);
  return data;
 }
-function decodeBase64Utf8(value){const bin=atob(value.replace(/\s/g,""));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes);}
-function encodeBase64Utf8(value){const bytes=new TextEncoder().encode(value);let bin="";for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(bin);}
-async function connectGitHub(){
+async function loadSupabaseProducts(){
+ const rows=await sbFetch("/rest/v1/products?select=*&order=id.asc");
+ if(!Array.isArray(rows))throw new Error("Data products dari Supabase tidak berbentuk daftar.");
+ products=rows.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price)||0,old:p.old===null?null:(p.old===undefined?null:Number(p.old)),emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0}));
+ $("statUpdated").textContent=`Dimuat: ${new Date().toLocaleString("id-ID")}`;renderProducts();cancelEdit();
+}
+async function connectSupabase(){
  if(busy)return;
- githubToken=$("githubToken").value.trim();
- if(!githubToken){notice("connectNotice","Masukkan Fine-grained GitHub token terlebih dahulu.","err");return;}
+ supabaseUrl=$("supabaseUrl").value.trim().replace(/\/$/,"");supabaseAnonKey=$("supabaseAnonKey").value.trim();
+ const email=$("adminEmail").value.trim(),password=$("adminPassword").value;
+ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(supabaseUrl)||!supabaseAnonKey||!email||!password){notice("connectNotice","Isi Project URL, anon/publishable key, email admin, dan password.","err");return;}
  setBusy(true);hideNotice("connectNotice");
  try{
-  await githubFetch("");
-  try{
-   const file=await githubFetch(`contents/catalog.json?ref=${encodeURIComponent($("repoBranch").value.trim()||"main")}`);
-   catalogSha=file.sha;
-   const parsed=JSON.parse(decodeBase64Utf8(file.content));
-   if(!Array.isArray(parsed.products))throw new Error("Isi catalog.json tidak memiliki array products.");
-   products=parsed.products.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price)||0,old:p.old?Number(p.old):null,emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0}));
-   $("statUpdated").textContent=parsed.updatedAt?`Update: ${new Date(parsed.updatedAt).toLocaleString("id-ID")}`:"Katalog berhasil dimuat";
-   notice("connectNotice",`Terhubung. ${products.length} produk dimuat dari repository.`,"ok");
-  }catch(error){
-   if(!String(error.message).toLowerCase().includes("not found"))throw error;
-   catalogSha=null;products=DEFAULT_PRODUCTS.map(p=>({...p}));
-   notice("connectNotice","Repository terhubung, tetapi catalog.json belum ada. Katalog contoh dimuat; klik Simpan/Terbitkan untuk membuatnya.","info");
-  }
-  setConnection(true,"Terhubung ke GitHub");renderProducts();cancelEdit();
- }catch(error){githubToken="";$("githubToken").value="";setConnection(false,"Gagal terhubung");notice("connectNotice",`Gagal menghubungkan: ${error.message}. Periksa token, owner, repo, branch, dan izin Contents: Read and write.`,"err");}
+  const response=await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`,{method:"POST",headers:{"apikey":supabaseAnonKey,"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+  const auth=await response.json();if(!response.ok)throw new Error(auth.msg||auth.message||auth.error_description||"Login Supabase gagal.");
+  accessToken=auth.access_token;await loadSupabaseProducts();setConnection(true,"Terhubung ke Supabase");
+  notice("connectNotice",`Berhasil masuk. ${products.length} produk dimuat dari Supabase.`,"ok");
+ }catch(error){accessToken="";setConnection(false,"Gagal terhubung");notice("connectNotice",`Gagal menghubungkan: ${error.message}`,"err");}
  finally{setBusy(false);}
 }
-async function putRepoFile(path,contentBase64,commitMessage){
- const body={message:commitMessage,content:contentBase64,branch:$("repoBranch").value.trim()||"main"};
- if(path==="catalog.json"&&catalogSha)body.sha=catalogSha;
- return await githubFetch(`contents/${pathEncode(path)}`,{method:"PUT",body:JSON.stringify(body)});
-}
-function slugify(value){return String(value||"produk").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,55)||"produk";}
-async function compressImage(file){
- const image=await new Promise((resolve,reject)=>{const img=new Image();const url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Foto tidak dapat dibuka."))};img.src=url;});
- const max=1400,scale=Math.min(1,max/Math.max(image.width,image.height));const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(image.width*scale));canvas.height=Math.max(1,Math.round(image.height*scale));const ctx=canvas.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0,canvas.width,canvas.height);
- const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",0.84));if(!blob)throw new Error("Gagal mengompres foto.");
- const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error("Gagal membaca foto."));reader.readAsDataURL(blob)});
- return {base64:String(dataUrl).split(",")[1],extension:blob.type==="image/webp"?"webp":"png"};
-}
 async function uploadProductImage(file,productName,id){
- const compressed=await compressImage(file);const filename=`${slugify(productName)}-${id}-${Date.now()}.${compressed.extension}`;const path=`src/katalog/${filename}`;
- await putRepoFile(path,compressed.base64,`Upload foto produk ${productName}`);
- return `./${path}`;
+ const image=await new Promise((resolve,reject)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Foto tidak dapat dibuka."))};img.src=url;});
+ const max=1400,scale=Math.min(1,max/Math.max(image.width,image.height)),canvas=document.createElement("canvas");
+ canvas.width=Math.max(1,Math.round(image.width*scale));canvas.height=Math.max(1,Math.round(image.height*scale));
+ const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0,canvas.width,canvas.height);
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",.84));if(!blob)throw new Error("Gagal mengompres foto.");
+ const slug=String(productName||"produk").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,55)||"produk";
+ const filePath=`${slug}-${id}-${Date.now()}.webp`;
+ const response=await fetch(`${supabaseUrl}/storage/v1/object/produk/${encodeURIComponent(filePath)}`,{method:"POST",headers:{"apikey":supabaseAnonKey,"Authorization":`Bearer ${accessToken}`,"Content-Type":"image/webp","x-upsert":"true"},body:blob});
+ const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.message||result.error||`Upload foto gagal (${response.status}).`);
+ return `${supabaseUrl}/storage/v1/object/public/produk/${encodeURIComponent(filePath)}`;
 }
+async function saveProductToSupabase(product){await sbFetch("/rest/v1/products?on_conflict=id",{method:"POST",headers:{"Prefer":"resolution=merge-duplicates,return=representation"},body:JSON.stringify(product)});}
 function resetForm(){$("productForm").reset();$("pEmoji").value="🧸";$("pRating").value="5.0";$("pReviews").value="0";currentImage="";$("imagePreview").innerHTML='<span>Pratinjau foto produk akan muncul di sini.</span>';}
 function cancelEdit(){editingId=null;currentImage="";resetForm();$("formTitle").textContent="＋ Tambah produk";$("editMode").textContent="Produk baru";$("saveProductBtn").textContent="Simpan produk";hideNotice("formNotice");}
-function editProduct(id){const p=products.find(x=>Number(x.id)===Number(id));if(!p)return;editingId=Number(id);currentImage=p.image||"";$("pName").value=p.name||"";$("pBrand").value=p.brand||"";$("pCategory").value=p.cat||"Edukasi";$("pPrice").value=p.price??"";$("pOld").value=p.old??"";$("pTag").value=p.tag||"";$("pEmoji").value=p.emoji||"🧸";$("pRating").value=p.rating||"5.0";$("pReviews").value=p.reviews||0;$("pImage").value="";$("imagePreview").innerHTML=currentImage?`<img src="${escapeHTML(currentImage)}" alt="Foto produk"><span>Foto sekarang. Pilih file baru untuk menggantinya.</span>`:'<span>Belum ada foto produk.</span>' ;$("formTitle").textContent="✎ Edit produk";$("editMode").textContent=`ID ${id}`;$("saveProductBtn").textContent="Simpan perubahan";hideNotice("formNotice");$("editorPanel").scrollIntoView({behavior:"smooth",block:"start"});}
+function editProduct(id){
+ const p=products.find(x=>Number(x.id)===Number(id));if(!p)return;editingId=Number(id);currentImage=p.image||"";
+ $("pName").value=p.name||"";$("pBrand").value=p.brand||"";$("pCategory").value=p.cat||"Edukasi";$("pPrice").value=p.price??"";$("pOld").value=p.old??"";$("pTag").value=p.tag||"";$("pEmoji").value=p.emoji||"🧸";$("pRating").value=p.rating||"5.0";$("pReviews").value=p.reviews||0;$("pImage").value="";
+ $("imagePreview").innerHTML=currentImage?`<img src="${escapeHTML(currentImage)}" alt="Foto produk"><span>Foto sekarang. Pilih file baru untuk menggantinya.</span>`:'<span>Belum ada foto produk.</span>';
+ $("formTitle").textContent="✎ Edit produk";$("editMode").textContent=`ID ${id}`;$("saveProductBtn").textContent="Simpan perubahan";hideNotice("formNotice");$("editorPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
 async function saveProduct(event){
- event.preventDefault();if(busy)return;if(!isConnected){notice("formNotice","Hubungkan GitHub terlebih dahulu agar produk dapat diterbitkan ke frontend.","err");return;}
+ event.preventDefault();if(busy)return;if(!isConnected){notice("formNotice","Masuk ke Supabase terlebih dahulu.","err");return;}
  const name=$("pName").value.trim(),price=Number($("pPrice").value);if(!name||!Number.isFinite(price)||price<0){notice("formNotice","Nama dan harga produk wajib diisi dengan benar.","err");return;}
- const id=editingId===null?Math.max(0,...products.map(p=>Number(p.id)||0))+1:editingId;
- const previous=products.find(p=>Number(p.id)===id)||{};
+ const id=editingId===null?Math.max(0,...products.map(p=>Number(p.id)||0))+1:editingId,previous=products.find(p=>Number(p.id)===id)||{};
  const p={...previous,id,name,brand:$("pBrand").value.trim(),cat:$("pCategory").value,price,old:$("pOld").value===""?null:Number($("pOld").value),tag:$("pTag").value.trim(),emoji:$("pEmoji").value.trim()||"🧸",rating:Number($("pRating").value||5).toFixed(1),reviews:Number($("pReviews").value||0),image:currentImage||""};
  setBusy(true);hideNotice("formNotice");
  try{
-  const imageFile=$("pImage").files[0];if(imageFile){notice("formNotice","Mengompres dan mengunggah foto produk…","info");p.image=await uploadProductImage(imageFile,name,id);}
-  if(editingId===null)products.push(p);else products=products.map(x=>Number(x.id)===id?p:x);
-  await publishCatalog();cancelEdit();renderProducts();notice("connectNotice","Produk berhasil disimpan dan katalog diterbitkan ke GitHub.","ok");
- }catch(error){
-  if(editingId===null)products=products.filter(x=>Number(x.id)!==id);else products=products.map(x=>Number(x.id)===id?previous:x);
-  renderProducts();notice("formNotice",`Gagal menerbitkan produk: ${error.message}`,"err");
- }finally{setBusy(false);}
+  const imageFile=$("pImage").files[0];if(imageFile){notice("formNotice","Mengompres dan mengunggah foto ke Supabase Storage…","info");p.image=await uploadProductImage(imageFile,name,id);}
+  await saveProductToSupabase(p);const index=products.findIndex(x=>Number(x.id)===id);if(index<0)products.push(p);else products[index]=p;
+  cancelEdit();renderProducts();$("statUpdated").textContent=`Update: ${new Date().toLocaleString("id-ID")}`;notice("connectNotice","Produk berhasil disimpan ke Supabase Database.","ok");
+ }catch(error){notice("formNotice",`Gagal menyimpan produk: ${error.message}`,"err");}
+ finally{setBusy(false);}
 }
-async function publishCatalog(){
- const payload={schemaVersion:1,store:"Gudang Mainan 88",updatedAt:new Date().toISOString(),products};
- const result=await putRepoFile("catalog.json",encodeBase64Utf8(JSON.stringify(payload,null,2)+"\n"),"Update katalog Gudang Mainan 88");
- catalogSha=result.content?.sha||catalogSha;$("statUpdated").textContent=`Update: ${new Date(payload.updatedAt).toLocaleString("id-ID")}`;$("statStatus").textContent="Terbit";updateStats();
+async function publishNow(){
+ if(!isConnected){notice("connectNotice","Masuk ke Supabase terlebih dahulu.","err");return;}if(busy)return;setBusy(true);
+ try{if(products.length)await sbFetch("/rest/v1/products?on_conflict=id",{method:"POST",headers:{"Prefer":"resolution=merge-duplicates"},body:JSON.stringify(products)});notice("connectNotice","Seluruh katalog berhasil disinkronkan ke Supabase.","ok");}
+ catch(error){notice("connectNotice",`Gagal sinkron: ${error.message}`,"err");}finally{setBusy(false);}
 }
-async function publishNow(){if(!isConnected){notice("connectNotice","Hubungkan GitHub terlebih dahulu.","err");return;}if(busy)return;setBusy(true);try{await publishCatalog();notice("connectNotice","Katalog berhasil diterbitkan. Frontend sekarang membaca catalog.json yang baru.","ok");}catch(error){notice("connectNotice",`Gagal menerbitkan katalog: ${error.message}`,"err");}finally{setBusy(false);}}
-async function deleteProduct(id){if(!isConnected){notice("connectNotice","Hubungkan GitHub terlebih dahulu.","err");return;}const p=products.find(x=>Number(x.id)===Number(id));if(!p||!confirm(`Hapus produk “${p.name}” dari katalog?`))return;const old=products;products=products.filter(x=>Number(x.id)!==Number(id));setBusy(true);try{await publishCatalog();renderProducts();notice("connectNotice","Produk dihapus dari katalog frontend.","ok");if(editingId===Number(id))cancelEdit();}catch(error){products=old;renderProducts();notice("connectNotice",`Gagal menghapus produk: ${error.message}`,"err");}finally{setBusy(false);}}
-function downloadBackup(){const payload={schemaVersion:1,store:"Gudang Mainan 88",updatedAt:new Date().toISOString(),products};const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="catalog-gudang-mainan-88-backup.json";a.click();URL.revokeObjectURL(url);}
-async function importJson(file){try{const parsed=JSON.parse(await file.text());const incoming=Array.isArray(parsed)?parsed:parsed.products;if(!Array.isArray(incoming))throw new Error("JSON harus berupa array produk atau memiliki properti products.");if(!incoming.every(p=>p&&p.name&&Number.isFinite(Number(p.price))))throw new Error("Setiap produk wajib memiliki name dan price.");products=incoming.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price),old:p.old?Number(p.old):null,emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0,image:p.image||""}));renderProducts();if(isConnected){setBusy(true);await publishCatalog();notice("connectNotice","JSON berhasil diimpor dan diterbitkan ke frontend.","ok");}else notice("connectNotice","JSON dimuat sementara. Hubungkan GitHub untuk menerbitkannya.","info");}catch(error){notice("connectNotice",`Gagal impor JSON: ${error.message}`,"err");}finally{setBusy(false);$("importJsonInput").value="";}}
-$("connectBtn").addEventListener("click",connectGitHub);
+async function deleteProduct(id){
+ if(!isConnected){notice("connectNotice","Masuk ke Supabase terlebih dahulu.","err");return;}
+ const p=products.find(x=>Number(x.id)===Number(id));if(!p||!confirm(`Hapus produk “${p.name}” dari Supabase?`))return;
+ setBusy(true);try{await sbFetch(`/rest/v1/products?id=eq.${encodeURIComponent(id)}`,{method:"DELETE"});products=products.filter(x=>Number(x.id)!==Number(id));renderProducts();notice("connectNotice","Produk dihapus dari Supabase Database.","ok");if(editingId===Number(id))cancelEdit();}
+ catch(error){notice("connectNotice",`Gagal menghapus produk: ${error.message}`,"err");}finally{setBusy(false);}
+}
+function downloadBackup(){const payload={schemaVersion:1,store:"Gudang Mainan 88",updatedAt:new Date().toISOString(),products};const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="catalog-gudang-mainan-88-backup.json";a.click();URL.revokeObjectURL(url);}
+async function importJson(file){
+ try{
+  const parsed=JSON.parse(await file.text()),incoming=Array.isArray(parsed)?parsed:parsed.products;
+  if(!Array.isArray(incoming))throw new Error("JSON harus berupa array produk atau memiliki properti products.");
+  if(!incoming.every(p=>p&&p.name&&Number.isFinite(Number(p.price))))throw new Error("Setiap produk wajib memiliki name dan price.");
+  products=incoming.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price),old:p.old?Number(p.old):null,emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0,image:p.image||""}));renderProducts();
+  if(isConnected){setBusy(true);await sbFetch("/rest/v1/products?on_conflict=id",{method:"POST",headers:{"Prefer":"resolution=merge-duplicates"},body:JSON.stringify(products)});notice("connectNotice","JSON berhasil diimpor ke Supabase.","ok");}
+  else notice("connectNotice","JSON dimuat sementara. Masuk ke Supabase untuk menyimpannya.","info");
+ }catch(error){notice("connectNotice",`Gagal impor: ${error.message}`,"err");}
+ finally{setBusy(false);$("importJsonInput").value="";}
+}
+$("connectBtn").addEventListener("click",connectSupabase);
 $("publishBtn").addEventListener("click",publishNow);
-$("disconnectBtn").addEventListener("click",()=>{githubToken="";$("githubToken").value="";catalogSha=null;setConnection(false,"Terputus");notice("connectNotice","Token dibersihkan dari memori halaman.","info");});
+$("disconnectBtn").addEventListener("click",()=>{accessToken="";$("adminPassword").value="";setConnection(false,"Keluar");notice("connectNotice","Sesi admin dihapus dari halaman ini.","info");});
 $("productForm").addEventListener("submit",saveProduct);
 $("cancelEditBtn").addEventListener("click",cancelEdit);
 $("productSearch").addEventListener("input",renderProducts);
-$("productList").addEventListener("click",e=>{const edit=e.target.closest("[data-edit]");const del=e.target.closest("[data-delete]");if(edit)editProduct(edit.dataset.edit);if(del)deleteProduct(del.dataset.delete);});
+$("productList").addEventListener("click",e=>{const edit=e.target.closest("[data-edit]"),del=e.target.closest("[data-delete]");if(edit)editProduct(edit.dataset.edit);if(del)deleteProduct(del.dataset.delete);});
 $("pImage").addEventListener("change",()=>{const file=$("pImage").files[0];if(!file){$("imagePreview").innerHTML=currentImage?`<img src="${escapeHTML(currentImage)}" alt="Foto produk"><span>Foto sekarang.</span>`:'<span>Pratinjau foto produk akan muncul di sini.</span>';return;}if(!file.type.startsWith("image/")){notice("formNotice","File harus berupa gambar.","err");return;}const url=URL.createObjectURL(file);$("imagePreview").innerHTML=`<img src="${url}" alt="Pratinjau"><span>${escapeHTML(file.name)}</span>`;});
 $("importJsonBtn").addEventListener("click",()=>$("importJsonInput").click());
 $("importJsonInput").addEventListener("change",e=>{const file=e.target.files[0];if(file)importJson(file);});
