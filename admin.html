@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#17233f">
+<title>Superadmin — Gudang Mainan 88</title>
+<style>
+:root{--navy:#17233f;--ink:#20263a;--muted:#738096;--yellow:#ffd43b;--line:#e7eaf0;--bg:#f5f7fb;--green:#16a36b;--red:#e34d5d;--shadow:0 12px 35px rgba(23,35,63,.08)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:24px 16px;background:var(--navy);color:#fff;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:11px;padding:0 8px 25px;font-weight:900;font-size:16px}.brand-mark{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:var(--yellow);color:var(--navy);font-size:22px}.brand small{display:block;color:#b9c5da;font-size:10px;font-weight:500;letter-spacing:.8px}.nav-label{padding:13px 10px 7px;color:#8997b1;font-size:9px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}.nav-item{display:flex;align-items:center;gap:11px;width:100%;padding:11px 12px;border:0;border-radius:11px;background:transparent;color:#dce4f2;text-align:left;font-weight:700;font-size:12px}.nav-item.active,.nav-item:hover{background:#ffffff16;color:#fff}.side-note{margin-top:auto;padding:13px;border:1px solid #ffffff20;border-radius:12px;color:#c3cde0;font-size:10px;line-height:1.6}.main{min-width:0}.topbar{height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 30px;background:#fff;border-bottom:1px solid var(--line)}.topbar h1{margin:0;font-size:18px;letter-spacing:-.5px}.topbar p{margin:2px 0 0;color:var(--muted);font-size:11px}.admin-pill{display:flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:11px;font-weight:800}.dot{width:8px;height:8px;border-radius:50%;background:#aab3c2}.dot.on{background:#16a36b}.content{max-width:1300px;margin:auto;padding:26px 30px 50px}.connect{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-bottom:20px}.panel,.stat{background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:0 4px 18px rgba(23,35,63,.035)}.panel{padding:20px}.panel h2{margin:0 0 5px;font-size:15px}.muted{color:var(--muted);font-size:11px}.connect-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:10px;font-weight:800;color:#566176}.field input,.field select,.field textarea{width:100%;min-width:0;padding:10px 11px;border:1px solid #dce2eb;border-radius:9px;outline:none;background:#fff;color:var(--ink);font-size:12px}.field input:focus,.field select:focus,.field textarea:focus{border-color:#e7b900;box-shadow:0 0 0 3px #ffd43b30}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;border:0;border-radius:9px;background:var(--navy);color:#fff;font-size:11px;font-weight:850}.btn.yellow{background:var(--yellow);color:var(--navy)}.btn.light{background:#f0f3f8;color:#36435a}.btn.danger{background:#fff0f1;color:#c62f43}.btn:disabled{opacity:.5;cursor:not-allowed}.connect-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}.permission{padding:14px;border-radius:12px;background:#fff9df;border:1px solid #f5e4a2;color:#5b4a12;font-size:10px;line-height:1.65}.permission a{color:#735900;font-weight:800;text-decoration:underline}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:20px}.stat{padding:16px 18px}.stat-label{font-size:10px;color:var(--muted);font-weight:800}.stat-value{margin-top:6px;font-size:26px;font-weight:950;letter-spacing:-1px;color:var(--navy)}.stat-sub{margin-top:2px;font-size:9px;color:#9aa3b2}.catalog-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}.catalog-head h2{margin:0;font-size:16px}.catalog-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.catalog-tools input{width:220px;max-width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;outline:none;font-size:11px}.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.75fr);gap:18px;align-items:start}.product-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.product-card{display:flex;gap:12px;align-items:center;min-width:0;padding:11px;border:1px solid var(--line);border-radius:13px;background:#fff}.thumb{width:66px;height:66px;display:grid;place-items:center;flex:none;overflow:hidden;border-radius:10px;background:#f4f6f9;font-size:30px}.thumb img{width:100%;height:100%;object-fit:contain}.product-card-main{flex:1;min-width:0}.product-card-main strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}.product-card-main small{display:block;margin-top:4px;color:var(--muted);font-size:9px}.price{margin-top:4px;color:#263a61;font-size:10px;font-weight:900}.card-actions{display:flex;gap:5px;margin-top:7px}.card-actions .btn{padding:6px 8px;font-size:9px}.editor{position:sticky;top:88px}.editor-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.editor-head h2{margin:0;font-size:15px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid .full{grid-column:1/-1}.preview{display:flex;align-items:center;gap:11px;padding:10px;border:1px dashed #cfd7e3;border-radius:11px;background:#fafbfd}.preview img{width:60px;height:60px;object-fit:contain;border-radius:8px;background:#f0f2f5}.preview span{font-size:10px;color:var(--muted)}.form-actions{display:flex;gap:8px;margin-top:14px}.form-actions .btn{flex:1}.notice{display:none;margin:14px 0 0;padding:11px 13px;border-radius:10px;font-size:10px;line-height:1.55}.notice.show{display:block}.notice.ok{background:#eafaf2;color:#13794f;border:1px solid #b8ebd0}.notice.err{background:#fff0f1;color:#b52c3d;border:1px solid #f5c5cb}.notice.info{background:#eef5ff;color:#27518c;border:1px solid #c9dcff}.empty{grid-column:1/-1;padding:35px;text-align:center;color:var(--muted);border:1px dashed #d9dfe8;border-radius:13px;font-size:11px}.footer-note{margin-top:18px;color:#8993a4;font-size:10px;line-height:1.65}.mobile-menu{display:none}
+@media(max-width:1050px){.shell{grid-template-columns:205px minmax(0,1fr)}.content{padding:20px}.layout{grid-template-columns:1fr}.editor{position:static}.product-list{grid-template-columns:repeat(2,minmax(0,1fr))}.connect{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.shell{display:block}.side{display:none}.topbar{height:62px;padding:0 15px}.topbar h1{font-size:15px}.content{padding:15px 12px 35px}.stats{gap:8px}.stat{padding:12px}.stat-value{font-size:22px}.connect-grid,.form-grid{grid-template-columns:1fr}.field.full,.form-grid .full{grid-column:auto}.product-list{grid-template-columns:1fr}.catalog-head{align-items:flex-start;flex-direction:column}.catalog-tools{width:100%}.catalog-tools input{width:100%;flex:1}.panel{padding:15px}.admin-pill{font-size:9px}.permission{font-size:9px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side"><div class="brand"><span class="brand-mark">🧸</span><span>GUDANG MAINAN 88<small>SUPERADMIN PANEL</small></span></div><div class="nav-label">Menu utama</div><button class="nav-item active" type="button">▦ &nbsp; Dashboard katalog</button><button class="nav-item" type="button" onclick="document.getElementById('editorPanel').scrollIntoView({behavior:'smooth'})">＋ &nbsp; Upload produk</button><button class="nav-item" type="button" onclick="downloadBackup()">⇩ &nbsp; Backup katalog</button><div class="side-note">Panel ini menerbitkan katalog ke repository GitHub toko. Perubahan akan dibaca oleh halaman Frontand melalui <b>catalog.json</b>.</div></aside>
+<main class="main">
+<header class="topbar"><div><h1>Dashboard Superadmin</h1><p>Kelola produk dan katalog Gudang Mainan 88</p></div><div class="admin-pill"><span class="dot" id="connectionDot"></span><span id="connectionText">Belum terhubung</span></div></header>
+<div class="content">
+<section class="connect">
+ <div class="panel"><h2>Hubungkan ke katalog Frontend</h2><div class="muted">Dashboard akan membaca dan menerbitkan file catalog.json di GitHub Pages.</div>
+  <div class="connect-grid">
+   <div class="field"><label>GitHub owner</label><input id="repoOwner" value="gudangmainan88" autocomplete="off"></div>
+   <div class="field"><label>Repository</label><input id="repoName" value="gudangmainan88.github.io" autocomplete="off"></div>
+   <div class="field"><label>Branch</label><input id="repoBranch" value="main" autocomplete="off"></div>
+   <div class="field"><label>File katalog</label><input value="catalog.json" disabled></div>
+   <div class="field full"><label>Fine-grained Personal Access Token (GitHub)</label><input id="githubToken" type="password" placeholder="github_pat_..." autocomplete="off" spellcheck="false"></div>
+  </div>
+  <div class="connect-actions"><button class="btn yellow" id="connectBtn" type="button">🔗 Hubungkan &amp; muat katalog</button><button class="btn" id="publishBtn" type="button" disabled>⬆ Terbitkan katalog</button><button class="btn light" type="button" id="disconnectBtn">Putuskan</button></div>
+  <div class="notice" id="connectNotice"></div>
+ </div>
+ <div class="panel"><h2>Pengaturan akses GitHub</h2><p class="muted">Buat token khusus untuk repository toko. Jangan kirim token kepada siapa pun.</p>
+  <div class="permission"><b>Permission wajib:</b> Fine-grained token → Resource owner <b>gudangmainan88</b> → Only select repositories → <b>gudangmainan88.github.io</b> → Repository permissions → <b>Contents: Read and write</b>.<br><br><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Buka halaman pembuatan token GitHub ↗</a><br><br>Token hanya disimpan sementara di memori halaman ini. Token tidak ditulis ke catalog.json, tidak ditanam ke file, dan hilang ketika halaman ditutup atau dimuat ulang.</div>
+ </div>
+</section>
+<section class="stats"><div class="stat"><div class="stat-label">TOTAL PRODUK</div><div class="stat-value" id="statProducts">12</div><div class="stat-sub">Produk dalam katalog</div></div><div class="stat"><div class="stat-label">KATEGORI</div><div class="stat-value" id="statCategories">6</div><div class="stat-sub">Kategori digunakan</div></div><div class="stat"><div class="stat-label">PRODUK PROMO</div><div class="stat-value" id="statPromos">7</div><div class="stat-sub">Memiliki harga lama</div></div><div class="stat"><div class="stat-label">STATUS PUBLIKASI</div><div class="stat-value" id="statStatus" style="font-size:16px">Draft</div><div class="stat-sub" id="statUpdated">Belum disinkronkan</div></div></section>
+<section class="panel"><div class="catalog-head"><div><h2>Katalog produk</h2><div class="muted">Tambah, edit, hapus, dan terbitkan produk ke frontend.</div></div><div class="catalog-tools"><input id="productSearch" type="search" placeholder="Cari nama atau kategori..."><button class="btn light" type="button" id="importJsonBtn">Impor JSON</button><input id="importJsonInput" type="file" accept="application/json,.json" hidden><button class="btn light" type="button" onclick="downloadBackup()">Backup JSON</button></div></div>
+ <div class="layout"><div class="product-list" id="productList"></div>
+ <aside class="panel editor" id="editorPanel"><div class="editor-head"><h2 id="formTitle">＋ Tambah produk</h2><span class="muted" id="editMode">Produk baru</span></div>
+ <form id="productForm">
+  <div class="form-grid">
+   <div class="field full"><label>Nama produk *</label><input id="pName" required maxlength="90" placeholder="Contoh: Mobil Balap Turbo RC"></div>
+   <div class="field"><label>Brand</label><input id="pBrand" maxlength="50" placeholder="Nama brand"></div>
+   <div class="field"><label>Kategori *</label><select id="pCategory" required><option value="LEGO">LEGO</option><option value="Boneka">Boneka</option><option value="Kendaraan">Kendaraan</option><option value="Edukasi">Edukasi</option><option value="Outdoor">Outdoor</option><option value="Kreatif">Kreatif</option></select></div>
+   <div class="field"><label>Harga jual (Rp) *</label><input id="pPrice" type="number" min="0" step="1000" required placeholder="150000"></div>
+   <div class="field"><label>Harga sebelum promo (Rp)</label><input id="pOld" type="number" min="0" step="1000" placeholder="Opsional"></div>
+   <div class="field"><label>Label produk</label><input id="pTag" maxlength="25" placeholder="BEST SELLER / -15%"></div>
+   <div class="field"><label>Emoji cadangan</label><input id="pEmoji" maxlength="8" value="🧸" placeholder="🧸"></div>
+   <div class="field"><label>Rating</label><input id="pRating" type="number" min="0" max="5" step="0.1" value="5.0"></div>
+   <div class="field"><label>Jumlah ulasan</label><input id="pReviews" type="number" min="0" step="1" value="0"></div>
+   <div class="field full"><label>Foto produk (JPG, PNG, WEBP)</label><input id="pImage" type="file" accept="image/*"></div>
+   <div class="field full"><div class="preview" id="imagePreview"><span>Pratinjau foto produk akan muncul di sini.</span></div></div>
+  </div>
+  <div class="form-actions"><button class="btn yellow" id="saveProductBtn" type="submit">Simpan produk</button><button class="btn light" id="cancelEditBtn" type="button">Batal</button></div>
+  <div class="notice" id="formNotice"></div>
+ </form>
+ </aside></div>
+ <div class="footer-note">Catatan: tombol Simpan menerbitkan katalog ke GitHub. GitHub Pages akan mengambil versi catalog.json terbaru setelah proses deploy selesai. File gambar diunggah ke folder <b>src/katalog/</b>. Menghapus produk dari katalog tidak otomatis menghapus berkas foto lama.</div>
+</section>
+</div></main></div>
+<script>
+const DEFAULT_PRODUCTS = [
+ {id:1,name:"Dino Petualang Interaktif",brand:"PLAYNEST JUNIOR",cat:"Edukasi",price:189000,old:229000,emoji:"🦖",tag:"BEST SELLER",rating:"4.9",reviews:128,image:""},
+ {id:2,name:"Balok Kreatif 120 Pieces",brand:"BRICKY",cat:"LEGO",price:249000,old:299000,emoji:"🧱",tag:"-17%",rating:"4.8",reviews:94,image:""},
+ {id:3,name:"Boneka Beruang Honey",brand:"CUDDLE CLUB",cat:"Boneka",price:129000,old:null,emoji:"🧸",tag:"FAVORIT",rating:"5.0",reviews:76,image:""},
+ {id:4,name:"Mobil Balap Turbo RC",brand:"ZOOM KIDS",cat:"Kendaraan",price:319000,old:379000,emoji:"🏎️",tag:"-16%",rating:"4.8",reviews:61,image:""},
+ {id:5,name:"Puzzle Hewan 3D",brand:"SMART PLAY",cat:"Edukasi",price:89000,old:null,emoji:"🧩",tag:"",rating:"4.7",reviews:53,image:""},
+ {id:6,name:"Skuter Mini Rainbow",brand:"MOVE & PLAY",cat:"Outdoor",price:425000,old:499000,emoji:"🛴",tag:"-15%",rating:"4.9",reviews:42,image:""},
+ {id:7,name:"Set Melukis Little Artist",brand:"COLOR POP",cat:"Kreatif",price:99000,old:119000,emoji:"🎨",tag:"-17%",rating:"4.8",reviews:88,image:""},
+ {id:8,name:"Pesawat Penjelajah Angkasa",brand:"GALAXY TOYS",cat:"Kendaraan",price:159000,old:null,emoji:"🚀",tag:"BARU",rating:"4.9",reviews:35,image:""},
+ {id:9,name:"Rumah Boneka Ceria",brand:"CUDDLE CLUB",cat:"Boneka",price:289000,old:339000,emoji:"🏠",tag:"-15%",rating:"4.8",reviews:47,image:""},
+ {id:10,name:"Set Eksperimen Sains Mini",brand:"SMART PLAY",cat:"Edukasi",price:175000,old:null,emoji:"🔬",tag:"",rating:"4.7",reviews:29,image:""},
+ {id:11,name:"Truk Konstruksi Kuat",brand:"ZOOM KIDS",cat:"Kendaraan",price:139000,old:null,emoji:"🚜",tag:"",rating:"4.8",reviews:66,image:""},
+ {id:12,name:"Kit Kreasi Gelang Warna",brand:"COLOR POP",cat:"Kreatif",price:79000,old:95000,emoji:"🌈",tag:"-17%",rating:"4.6",reviews:31,image:""}
+];
+let products=DEFAULT_PRODUCTS.map(p=>({...p}));
+let githubToken="", catalogSha=null, editingId=null, currentImage="", isConnected=false, busy=false;
+const $=id=>document.getElementById(id);
+const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0);
+function notice(id,message,type="info"){const el=$(id);el.textContent=message;el.className=`notice show ${type}`;}
+function hideNotice(id){$(id).className="notice";}
+function setBusy(value){busy=value;["connectBtn","saveProductBtn"].forEach(id=>$(id).disabled=value);if($("publishBtn"))$("publishBtn").disabled=value||!isConnected;$("connectBtn").textContent=value?"Memproses…":"🔗 Hubungkan & muat katalog";$("saveProductBtn").textContent=value?"Menerbitkan…":(editingId===null?"Simpan produk":"Simpan perubahan");}
+function setConnection(on,label){isConnected=on;$("connectionDot").classList.toggle("on",on);$("connectionText").textContent=label|| (on?"Terhubung ke GitHub":"Belum terhubung");$("statStatus").textContent=on?"Terhubung":"Draft";if($("publishBtn"))$("publishBtn").disabled=!on||busy;}
+function updateStats(){ $("statProducts").textContent=products.length;$("statCategories").textContent=new Set(products.map(p=>p.cat).filter(Boolean)).size;$("statPromos").textContent=products.filter(p=>Number(p.old)>Number(p.price)).length; }
+function renderProducts(){
+ const q=$("productSearch").value.trim().toLowerCase();
+ const list=products.filter(p=>(p.name+" "+p.brand+" "+p.cat).toLowerCase().includes(q));
+ $("productList").innerHTML=list.length?list.map(p=>`<article class="product-card"><div class="thumb">${p.image?`<img src="${escapeHTML(p.image)}" alt="">`:escapeHTML(p.emoji||"🧸")}</div><div class="product-card-main"><strong>${escapeHTML(p.name)}</strong><small>${escapeHTML(p.brand||"Tanpa brand")} · ${escapeHTML(p.cat)}</small><div class="price">${rupiah(p.price)}</div><div class="card-actions"><button class="btn light" type="button" data-edit="${Number(p.id)}">✎ Edit</button><button class="btn danger" type="button" data-delete="${Number(p.id)}">Hapus</button></div></div></article>`).join(""):`<div class="empty">Tidak ada produk yang cocok.</div>`;
+ updateStats();
+}
+function pathEncode(path){return path.split("/").map(encodeURIComponent).join("/");}
+function apiHeaders(){return {"Accept":"application/vnd.github+json","Authorization":`Bearer ${githubToken}`,"X-GitHub-Api-Version":"2026-03-10","Content-Type":"application/json"};}
+async function githubFetch(path,options={}){
+ const url=`https://api.github.com/repos/${encodeURIComponent($("repoOwner").value.trim())}/${encodeURIComponent($("repoName").value.trim())}/${path}`;
+ const response=await fetch(url,{...options,headers:{...apiHeaders(),...(options.headers||{})}});
+ let data={};try{data=await response.json()}catch{}
+ if(!response.ok){const message=data.message||`GitHub API error ${response.status}`;throw new Error(message);}
+ return data;
+}
+function decodeBase64Utf8(value){const bin=atob(value.replace(/\s/g,""));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes);}
+function encodeBase64Utf8(value){const bytes=new TextEncoder().encode(value);let bin="";for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(bin);}
+async function connectGitHub(){
+ if(busy)return;
+ githubToken=$("githubToken").value.trim();
+ if(!githubToken){notice("connectNotice","Masukkan Fine-grained GitHub token terlebih dahulu.","err");return;}
+ setBusy(true);hideNotice("connectNotice");
+ try{
+  await githubFetch("");
+  try{
+   const file=await githubFetch(`contents/catalog.json?ref=${encodeURIComponent($("repoBranch").value.trim()||"main")}`);
+   catalogSha=file.sha;
+   const parsed=JSON.parse(decodeBase64Utf8(file.content));
+   if(!Array.isArray(parsed.products))throw new Error("Isi catalog.json tidak memiliki array products.");
+   products=parsed.products.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price)||0,old:p.old?Number(p.old):null,emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0}));
+   $("statUpdated").textContent=parsed.updatedAt?`Update: ${new Date(parsed.updatedAt).toLocaleString("id-ID")}`:"Katalog berhasil dimuat";
+   notice("connectNotice",`Terhubung. ${products.length} produk dimuat dari repository.`,"ok");
+  }catch(error){
+   if(!String(error.message).toLowerCase().includes("not found"))throw error;
+   catalogSha=null;products=DEFAULT_PRODUCTS.map(p=>({...p}));
+   notice("connectNotice","Repository terhubung, tetapi catalog.json belum ada. Katalog contoh dimuat; klik Simpan/Terbitkan untuk membuatnya.","info");
+  }
+  setConnection(true,"Terhubung ke GitHub");renderProducts();cancelEdit();
+ }catch(error){githubToken="";$("githubToken").value="";setConnection(false,"Gagal terhubung");notice("connectNotice",`Gagal menghubungkan: ${error.message}. Periksa token, owner, repo, branch, dan izin Contents: Read and write.`,"err");}
+ finally{setBusy(false);}
+}
+async function putRepoFile(path,contentBase64,commitMessage){
+ const body={message:commitMessage,content:contentBase64,branch:$("repoBranch").value.trim()||"main"};
+ if(path==="catalog.json"&&catalogSha)body.sha=catalogSha;
+ return await githubFetch(`contents/${pathEncode(path)}`,{method:"PUT",body:JSON.stringify(body)});
+}
+function slugify(value){return String(value||"produk").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,55)||"produk";}
+async function compressImage(file){
+ const image=await new Promise((resolve,reject)=>{const img=new Image();const url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Foto tidak dapat dibuka."))};img.src=url;});
+ const max=1400,scale=Math.min(1,max/Math.max(image.width,image.height));const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(image.width*scale));canvas.height=Math.max(1,Math.round(image.height*scale));const ctx=canvas.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0,canvas.width,canvas.height);
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",0.84));if(!blob)throw new Error("Gagal mengompres foto.");
+ const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error("Gagal membaca foto."));reader.readAsDataURL(blob)});
+ return {base64:String(dataUrl).split(",")[1],extension:blob.type==="image/webp"?"webp":"png"};
+}
+async function uploadProductImage(file,productName,id){
+ const compressed=await compressImage(file);const filename=`${slugify(productName)}-${id}-${Date.now()}.${compressed.extension}`;const path=`src/katalog/${filename}`;
+ await putRepoFile(path,compressed.base64,`Upload foto produk ${productName}`);
+ return `./${path}`;
+}
+function resetForm(){$("productForm").reset();$("pEmoji").value="🧸";$("pRating").value="5.0";$("pReviews").value="0";currentImage="";$("imagePreview").innerHTML='<span>Pratinjau foto produk akan muncul di sini.</span>';}
+function cancelEdit(){editingId=null;currentImage="";resetForm();$("formTitle").textContent="＋ Tambah produk";$("editMode").textContent="Produk baru";$("saveProductBtn").textContent="Simpan produk";hideNotice("formNotice");}
+function editProduct(id){const p=products.find(x=>Number(x.id)===Number(id));if(!p)return;editingId=Number(id);currentImage=p.image||"";$("pName").value=p.name||"";$("pBrand").value=p.brand||"";$("pCategory").value=p.cat||"Edukasi";$("pPrice").value=p.price??"";$("pOld").value=p.old??"";$("pTag").value=p.tag||"";$("pEmoji").value=p.emoji||"🧸";$("pRating").value=p.rating||"5.0";$("pReviews").value=p.reviews||0;$("pImage").value="";$("imagePreview").innerHTML=currentImage?`<img src="${escapeHTML(currentImage)}" alt="Foto produk"><span>Foto sekarang. Pilih file baru untuk menggantinya.</span>`:'<span>Belum ada foto produk.</span>' ;$("formTitle").textContent="✎ Edit produk";$("editMode").textContent=`ID ${id}`;$("saveProductBtn").textContent="Simpan perubahan";hideNotice("formNotice");$("editorPanel").scrollIntoView({behavior:"smooth",block:"start"});}
+async function saveProduct(event){
+ event.preventDefault();if(busy)return;if(!isConnected){notice("formNotice","Hubungkan GitHub terlebih dahulu agar produk dapat diterbitkan ke frontend.","err");return;}
+ const name=$("pName").value.trim(),price=Number($("pPrice").value);if(!name||!Number.isFinite(price)||price<0){notice("formNotice","Nama dan harga produk wajib diisi dengan benar.","err");return;}
+ const id=editingId===null?Math.max(0,...products.map(p=>Number(p.id)||0))+1:editingId;
+ const previous=products.find(p=>Number(p.id)===id)||{};
+ const p={...previous,id,name,brand:$("pBrand").value.trim(),cat:$("pCategory").value,price,old:$("pOld").value===""?null:Number($("pOld").value),tag:$("pTag").value.trim(),emoji:$("pEmoji").value.trim()||"🧸",rating:Number($("pRating").value||5).toFixed(1),reviews:Number($("pReviews").value||0),image:currentImage||""};
+ setBusy(true);hideNotice("formNotice");
+ try{
+  const imageFile=$("pImage").files[0];if(imageFile){notice("formNotice","Mengompres dan mengunggah foto produk…","info");p.image=await uploadProductImage(imageFile,name,id);}
+  if(editingId===null)products.push(p);else products=products.map(x=>Number(x.id)===id?p:x);
+  await publishCatalog();cancelEdit();renderProducts();notice("connectNotice","Produk berhasil disimpan dan katalog diterbitkan ke GitHub.","ok");
+ }catch(error){
+  if(editingId===null)products=products.filter(x=>Number(x.id)!==id);else products=products.map(x=>Number(x.id)===id?previous:x);
+  renderProducts();notice("formNotice",`Gagal menerbitkan produk: ${error.message}`,"err");
+ }finally{setBusy(false);}
+}
+async function publishCatalog(){
+ const payload={schemaVersion:1,store:"Gudang Mainan 88",updatedAt:new Date().toISOString(),products};
+ const result=await putRepoFile("catalog.json",encodeBase64Utf8(JSON.stringify(payload,null,2)+"\n"),"Update katalog Gudang Mainan 88");
+ catalogSha=result.content?.sha||catalogSha;$("statUpdated").textContent=`Update: ${new Date(payload.updatedAt).toLocaleString("id-ID")}`;$("statStatus").textContent="Terbit";updateStats();
+}
+async function publishNow(){if(!isConnected){notice("connectNotice","Hubungkan GitHub terlebih dahulu.","err");return;}if(busy)return;setBusy(true);try{await publishCatalog();notice("connectNotice","Katalog berhasil diterbitkan. Frontend sekarang membaca catalog.json yang baru.","ok");}catch(error){notice("connectNotice",`Gagal menerbitkan katalog: ${error.message}`,"err");}finally{setBusy(false);}}
+async function deleteProduct(id){if(!isConnected){notice("connectNotice","Hubungkan GitHub terlebih dahulu.","err");return;}const p=products.find(x=>Number(x.id)===Number(id));if(!p||!confirm(`Hapus produk “${p.name}” dari katalog?`))return;const old=products;products=products.filter(x=>Number(x.id)!==Number(id));setBusy(true);try{await publishCatalog();renderProducts();notice("connectNotice","Produk dihapus dari katalog frontend.","ok");if(editingId===Number(id))cancelEdit();}catch(error){products=old;renderProducts();notice("connectNotice",`Gagal menghapus produk: ${error.message}`,"err");}finally{setBusy(false);}}
+function downloadBackup(){const payload={schemaVersion:1,store:"Gudang Mainan 88",updatedAt:new Date().toISOString(),products};const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="catalog-gudang-mainan-88-backup.json";a.click();URL.revokeObjectURL(url);}
+async function importJson(file){try{const parsed=JSON.parse(await file.text());const incoming=Array.isArray(parsed)?parsed:parsed.products;if(!Array.isArray(incoming))throw new Error("JSON harus berupa array produk atau memiliki properti products.");if(!incoming.every(p=>p&&p.name&&Number.isFinite(Number(p.price))))throw new Error("Setiap produk wajib memiliki name dan price.");products=incoming.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price),old:p.old?Number(p.old):null,emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0,image:p.image||""}));renderProducts();if(isConnected){setBusy(true);await publishCatalog();notice("connectNotice","JSON berhasil diimpor dan diterbitkan ke frontend.","ok");}else notice("connectNotice","JSON dimuat sementara. Hubungkan GitHub untuk menerbitkannya.","info");}catch(error){notice("connectNotice",`Gagal impor JSON: ${error.message}`,"err");}finally{setBusy(false);$("importJsonInput").value="";}}
+$("connectBtn").addEventListener("click",connectGitHub);
+$("publishBtn").addEventListener("click",publishNow);
+$("disconnectBtn").addEventListener("click",()=>{githubToken="";$("githubToken").value="";catalogSha=null;setConnection(false,"Terputus");notice("connectNotice","Token dibersihkan dari memori halaman.","info");});
+$("productForm").addEventListener("submit",saveProduct);
+$("cancelEditBtn").addEventListener("click",cancelEdit);
+$("productSearch").addEventListener("input",renderProducts);
+$("productList").addEventListener("click",e=>{const edit=e.target.closest("[data-edit]");const del=e.target.closest("[data-delete]");if(edit)editProduct(edit.dataset.edit);if(del)deleteProduct(del.dataset.delete);});
+$("pImage").addEventListener("change",()=>{const file=$("pImage").files[0];if(!file){$("imagePreview").innerHTML=currentImage?`<img src="${escapeHTML(currentImage)}" alt="Foto produk"><span>Foto sekarang.</span>`:'<span>Pratinjau foto produk akan muncul di sini.</span>';return;}if(!file.type.startsWith("image/")){notice("formNotice","File harus berupa gambar.","err");return;}const url=URL.createObjectURL(file);$("imagePreview").innerHTML=`<img src="${url}" alt="Pratinjau"><span>${escapeHTML(file.name)}</span>`;});
+$("importJsonBtn").addEventListener("click",()=>$("importJsonInput").click());
+$("importJsonInput").addEventListener("change",e=>{const file=e.target.files[0];if(file)importJson(file);});
+renderProducts();updateStats();
+</script>
+</body></html>
