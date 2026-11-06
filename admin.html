@@ -17,14 +17,9 @@
 <div class="content">
 <section class="panel" style="margin-bottom:20px">
  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-  <div><h2 style="margin:0 0 4px">Koneksi Supabase otomatis</h2><div class="muted">Katalog dan foto dibaca langsung dari project Gudang Mainan 88 saat halaman dibuka.</div></div>
-  <span class="muted">Project URL dan publishable key sudah terpasang di HTML</span>
+  <div><h2 style="margin:0 0 4px">Dashboard katalog otomatis</h2><div class="muted">Katalog dan foto produk terhubung langsung ke Supabase saat halaman dibuka. Tidak perlu login ulang.</div></div>
+  <span class="admin-pill"><span class="dot" id="connectionDot"></span><span id="connectionText">Menghubungkan…</span></span>
  </div>
- <div class="connect-grid" style="margin-top:14px">
-  <div class="field"><label>Email admin Supabase Auth (untuk mengelola produk)</label><input id="adminEmail" type="email" placeholder="Email akun admin" autocomplete="username"></div>
-  <div class="field"><label>Password admin</label><input id="adminPassword" type="password" placeholder="Password Supabase Auth" autocomplete="current-password"></div>
- </div>
- <div class="connect-actions"><button class="btn yellow" id="adminLoginBtn" type="button">Masuk sebagai admin</button><button class="btn light" id="adminLogoutBtn" type="button">Keluar admin</button></div>
  <div class="notice" id="connectNotice"></div>
 </section>
 <section class="stats"><div class="stat"><div class="stat-label">TOTAL PRODUK</div><div class="stat-value" id="statProducts">12</div><div class="stat-sub">Produk dalam katalog</div></div><div class="stat"><div class="stat-label">KATEGORI</div><div class="stat-value" id="statCategories">6</div><div class="stat-sub">Kategori digunakan</div></div><div class="stat"><div class="stat-label">PRODUK PROMO</div><div class="stat-value" id="statPromos">7</div><div class="stat-sub">Memiliki harga lama</div></div><div class="stat"><div class="stat-label">STATUS PUBLIKASI</div><div class="stat-value" id="statStatus" style="font-size:16px">Draft</div><div class="stat-sub" id="statUpdated">Belum disinkronkan</div></div></section>
@@ -69,13 +64,13 @@ const DEFAULT_PRODUCTS = [
 ];
 let products=DEFAULT_PRODUCTS.map(p=>({...p}));
 const supabaseUrl="https://ssgqecefnrkuoucxcpzj.supabase.co",supabaseAnonKey="sb_publishable_8qd7V1hxTShjRNs-BTK0tA_D3RMnnGa";
-let accessToken="",editingId=null,currentImage="",isConnected=false,busy=false;
+let accessToken=supabaseAnonKey,editingId=null,currentImage="",isConnected=false,busy=false;
 const $=id=>document.getElementById(id);
 const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0);
 function notice(id,message,type="info"){const el=$(id);el.textContent=message;el.className=`notice show ${type}`;}
 function hideNotice(id){$(id).className="notice";}
-function setBusy(value){busy=value;$("saveProductBtn").disabled=value;$("adminLoginBtn").disabled=value;$("saveProductBtn").textContent=value?"Menyimpan…":(editingId===null?"Simpan produk":"Simpan perubahan");}
+function setBusy(value){busy=value;$("saveProductBtn").disabled=value;$("saveProductBtn").textContent=value?"Menyimpan…":(editingId===null?"Simpan produk":"Simpan perubahan");}
 function setConnection(on,label){isConnected=on;$("connectionDot").classList.toggle("on",on);$("connectionText").textContent=label||(on?"Terhubung ke Supabase":"Belum terhubung");$("statStatus").textContent=on?"Terhubung":"Draft";}
 function updateStats(){$("statProducts").textContent=products.length;$("statCategories").textContent=new Set(products.map(p=>p.cat).filter(Boolean)).size;$("statPromos").textContent=products.filter(p=>Number(p.old)>Number(p.price)).length;}
 function renderProducts(){
@@ -95,20 +90,6 @@ async function loadSupabaseProducts(){
  if(!Array.isArray(rows))throw new Error("Data products dari Supabase tidak berbentuk daftar.");
  products=rows.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price)||0,old:p.old===null?null:(p.old===undefined?null:Number(p.old)),emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0}));
  $("statUpdated").textContent=`Dimuat: ${new Date().toLocaleString("id-ID")}`;renderProducts();cancelEdit();
-}
-async function loginAdmin(){
- if(busy)return;
- const email=$("adminEmail").value.trim(),password=$("adminPassword").value;
- if(!email||!password){notice("connectNotice","Masukkan email dan password akun admin Supabase.","err");return;}
- setBusy(true);hideNotice("connectNotice");
- try{
-  const response=await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`,{method:"POST",headers:{"apikey":supabaseAnonKey,"Content-Type":"application/json"},body:JSON.stringify({email,password})});
-  const auth=await response.json();if(!response.ok)throw new Error(auth.msg||auth.message||auth.error_description||"Login admin gagal.");
-  accessToken=auth.access_token;
-  notice("connectNotice","Login admin berhasil. Sekarang kamu dapat menambah, mengedit, menghapus produk, dan mengunggah foto.","ok");
-  $("connectionText").textContent="Terhubung · Admin aktif";
- }catch(error){accessToken="";notice("connectNotice",`Login admin gagal: ${error.message}`,"err");}
- finally{setBusy(false);}
 }
 async function initializeSupabase(){
  setConnection(false,"Menghubungkan…");
@@ -143,7 +124,7 @@ function editProduct(id){
  $("formTitle").textContent="✎ Edit produk";$("editMode").textContent=`ID ${id}`;$("saveProductBtn").textContent="Simpan perubahan";hideNotice("formNotice");$("editorPanel").scrollIntoView({behavior:"smooth",block:"start"});
 }
 async function saveProduct(event){
- event.preventDefault();if(busy)return;if(!accessToken){notice("formNotice","Login sebagai admin terlebih dahulu untuk menyimpan produk.","err");return;}
+ event.preventDefault();if(busy)return;if(!isConnected){notice("formNotice","Supabase belum terhubung. Periksa koneksi dan kebijakan akses.","err");return;}
  const name=$("pName").value.trim(),price=Number($("pPrice").value);if(!name||!Number.isFinite(price)||price<0){notice("formNotice","Nama dan harga produk wajib diisi dengan benar.","err");return;}
  const id=editingId===null?Math.max(0,...products.map(p=>Number(p.id)||0))+1:editingId,previous=products.find(p=>Number(p.id)===id)||{};
  const p={...previous,id,name,brand:$("pBrand").value.trim(),cat:$("pCategory").value,price,old:$("pOld").value===""?null:Number($("pOld").value),tag:$("pTag").value.trim(),emoji:$("pEmoji").value.trim()||"🧸",rating:Number($("pRating").value||5).toFixed(1),reviews:Number($("pReviews").value||0),image:currentImage||""};
@@ -156,7 +137,7 @@ async function saveProduct(event){
  finally{setBusy(false);}
 }
 async function deleteProduct(id){
- if(!accessToken){notice("connectNotice","Login sebagai admin terlebih dahulu untuk mengelola produk.","err");return;}
+ if(!isConnected){notice("connectNotice","Supabase belum terhubung. Periksa koneksi dan kebijakan akses.","err");return;}
  const p=products.find(x=>Number(x.id)===Number(id));if(!p||!confirm(`Hapus produk “${p.name}” dari Supabase?`))return;
  setBusy(true);try{await sbFetch(`/rest/v1/products?id=eq.${encodeURIComponent(id)}`,{method:"DELETE"});products=products.filter(x=>Number(x.id)!==Number(id));renderProducts();notice("connectNotice","Produk dihapus dari Supabase Database.","ok");if(editingId===Number(id))cancelEdit();}
  catch(error){notice("connectNotice",`Gagal menghapus produk: ${error.message}`,"err");}finally{setBusy(false);}
@@ -169,12 +150,10 @@ async function importJson(file){
   if(!incoming.every(p=>p&&p.name&&Number.isFinite(Number(p.price))))throw new Error("Setiap produk wajib memiliki name dan price.");
   products=incoming.map((p,i)=>({...p,id:Number(p.id)||i+1,price:Number(p.price),old:p.old?Number(p.old):null,emoji:p.emoji||"🧸",reviews:Number(p.reviews)||0,image:p.image||""}));renderProducts();
   if(accessToken){setBusy(true);await sbFetch("/rest/v1/products?on_conflict=id",{method:"POST",headers:{"Prefer":"resolution=merge-duplicates"},body:JSON.stringify(products)});notice("connectNotice","JSON berhasil diimpor ke Supabase.","ok");}
-  else notice("connectNotice","JSON dimuat sementara. Login admin untuk menyimpannya ke Supabase.","info");
+  else notice("connectNotice","JSON dimuat sementara. Supabase belum terhubung sehingga belum tersimpan.","info");
  }catch(error){notice("connectNotice",`Gagal impor: ${error.message}`,"err");}
  finally{setBusy(false);$("importJsonInput").value="";}
 }
-$("adminLoginBtn").addEventListener("click",loginAdmin);
-$("adminLogoutBtn").addEventListener("click",()=>{accessToken="";$("adminPassword").value="";$("connectionText").textContent=isConnected?"Terhubung · Mode baca":"Tidak terhubung";notice("connectNotice","Sesi admin dihapus dari halaman ini.","info");});
 $("productForm").addEventListener("submit",saveProduct);
 $("cancelEditBtn").addEventListener("click",cancelEdit);
 $("productSearch").addEventListener("input",renderProducts);
