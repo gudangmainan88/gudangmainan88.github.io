@@ -63,7 +63,7 @@ const DEFAULT_PRODUCTS = [
  {id:12,name:"Kit Kreasi Gelang Warna",brand:"COLOR POP",cat:"Kreatif",price:79000,old:95000,emoji:"🌈",tag:"-17%",rating:"4.6",reviews:31,image:""}
 ];
 let products=DEFAULT_PRODUCTS.map(p=>({...p}));
-const supabaseUrl="https://ssgqecefnrkuoucxcpzj.supabase.co",supabaseAnonKey="sb_publishable_8qd7V1hxTShjRNs-BTK0tA_D3RMnnGa";
+const supabaseUrl="https://ssgqecefrnkuoucxcpzj.supabase.co",supabaseAnonKey="sb_publishable_8qd7V1hxTShjRNs-BTK0tA_D3RMnnGa";
 let accessToken=supabaseAnonKey,editingId=null,currentImage="",isConnected=false,busy=false;
 const $=id=>document.getElementById(id);
 const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
