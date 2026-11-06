@@ -123,6 +123,9 @@
 <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Keranjang belanja"><div class="drawer-panel"><div class="drawer-head"><h3>Keranjang belanja 🛍️</h3><button class="close" id="closeCart" aria-label="Tutup">×</button></div><div class="cart-items" id="cartItems"></div><div class="cart-total" id="cartTotal"></div></div></div>
 <div class="toast" id="toast" role="status"></div>
 <script>
+const SUPABASE_URL = "https://PROJECT_REF.supabase.co";
+const SUPABASE_ANON_KEY = "SUPABASE_ANON_KEY";
+
 let products = [
  {id:1,name:"Dino Petualang Interaktif",brand:"PLAYNEST JUNIOR",cat:"Edukasi",price:189000,old:229000,emoji:"🦖",tag:"BEST SELLER",rating:"4.9",reviews:128},
  {id:2,name:"Balok Kreatif 120 Pieces",brand:"BRICKY",cat:"LEGO",price:249000,old:299000,emoji:"🧱",tag:"-17%",rating:"4.8",reviews:94},
@@ -141,14 +144,15 @@ let activeFilter="Semua", query="", favorites=new Set(), cart={};
 const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
 function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 async function loadPublishedCatalog(){
- try{
-  const response=await fetch(`./catalog.json?updated=${Date.now()}`,{cache:"no-store"});
-  if(!response.ok)throw new Error(`catalog.json tidak tersedia (${response.status})`);
-  const payload=await response.json();
-  if(!payload||!Array.isArray(payload.products))throw new Error("Format catalog.json tidak valid");
-  const cleaned=payload.products.filter(p=>p&&p.name&&Number.isFinite(Number(p.price))).map(p=>({...p,id:Number(p.id),price:Number(p.price),old:p.old?Number(p.old):null,reviews:Number(p.reviews)||0,emoji:p.emoji||"🧸"}));
-  if(cleaned.length){products=cleaned;renderProducts();}
- }catch(error){console.info("Katalog online belum dimuat; memakai katalog bawaan Frontand.",error.message);renderProducts();}
+  try{
+   if(SUPABASE_URL.includes("PROJECT_REF") || SUPABASE_ANON_KEY==="SUPABASE_ANON_KEY"){renderProducts();return;}
+   const response=await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=id.asc`,{headers:{"apikey":SUPABASE_ANON_KEY,"Authorization":`Bearer ${SUPABASE_ANON_KEY}`}});
+   if(!response.ok)throw new Error(`Supabase gagal memuat produk (${response.status})`);
+   const rows=await response.json();
+   if(!Array.isArray(rows))throw new Error("Format data produk Supabase tidak valid.");
+   products=rows.filter(p=>p&&p.name&&Number.isFinite(Number(p.price))).map(p=>({...p,id:Number(p.id),price:Number(p.price),old:p.old===null?null:(p.old===undefined?null:Number(p.old)),reviews:Number(p.reviews)||0,emoji:p.emoji||"🧸"}));
+   renderProducts();
+  }catch(error){console.error("Katalog Supabase gagal dimuat:",error);renderProducts();}
 }
 
 const productGrid=document.getElementById("productGrid");
